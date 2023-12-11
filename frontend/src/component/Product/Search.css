@@ -1,0 +1,72 @@
+.searchBox {
+  width: 30vw;
+  height: 9vh;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(233, 238, 236);
+  /* position: fixed; */
+  top: 0%;
+  left: 0;
+}
+
+.searchBox > input[type="text"] {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.274);
+  background-color: white;
+  border: none;
+  color: rgba(0, 0, 0, 0.637);
+  padding: 1vmax 2vmax;
+  width: 70%;
+  outline: none;
+  border-radius: 0%;
+  font: 300 1.1vmax cursive;
+  box-sizing: border-box;
+  height: 8%;
+  /* text-align: center; */
+
+}
+
+.searchBox > input[type="submit"] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 8%;
+  border-radius: 0%;
+  background-color: rgb(141, 229, 69);
+  border: none;
+  /* padding: 1vmax; */
+  padding-bottom: 1.6vmax;
+  padding-top: 0.5vmax;
+  width: 30%;
+  font: 300 1.1vmax "Roboto";
+  cursor: pointer;
+  color: white;
+  transition: all 0.5s;
+}
+
+.searchBox > input[type="submit"]:hover {
+  background-color: rgb(55, 97, 214);
+}
+
+@media screen and (max-width: 600px) {
+
+  .searchBox{
+    position: relative;
+    left: 50px;
+    width:200px;
+    /* height: 90px; */
+  }
+
+  .searchBox > input[type="text"] {
+    width: 100%;
+    font: 20 3vw cursive;
+    height: 40%;
+  }
+
+  .searchBox > input[type="submit"] {
+    height: 40%;
+    width: 30%;
+    font: 30 3vw "Roboto";
+  }
+}
