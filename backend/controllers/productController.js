@@ -19,21 +19,32 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
 
 // getAllProducts
 
-exports.getAllProducts = catchAsyncErrors(async (req, res,next) => {
-
+exports.getAllProducts = catchAsyncErrors(async (req, res, next) => {
   const resultperpage = 8;
   const productCount = await Product.countDocuments();
-  const apifeature = new ApiFeatures(Product.find(), req.query)
+  let qr = {...req.query};
+  const apifeature = new ApiFeatures(Product.find(), qr)
+    .search()
+    .filter();
+
+  let pros = await apifeature.query;
+
+  let filteredProductsCount = pros.length;
+
+
+  const apif = new ApiFeatures(Product.find(), req.query)
     .search()
     .filter()
     .pagination(resultperpage);
-  const products = await apifeature.query;
+
+  let products = await apif.query;
 
   res.status(200).json({
     success: true,
     products,
     productCount,
     resultperpage,
+    filteredProductsCount,
   });
 });
 
@@ -162,9 +173,8 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
     (rev) => rev._id.toString() !== req.query.id.toString()
   );
 
-  if(remainingReviews.length===0)
-  {
-    return next(new ErrorHandler("review Not found", 404)); 
+  if (remainingReviews.length === 0) {
+    return next(new ErrorHandler("review Not found", 404));
   }
 
   let avgRating = 0;
@@ -173,14 +183,15 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
     avgRating += rev.rating;
   });
 
-  const newRatings = remainingReviews.length > 0 ? avgRating / remainingReviews.length : 0;
+  const newRatings =
+    remainingReviews.length > 0 ? avgRating / remainingReviews.length : 0;
 
   await Product.findByIdAndUpdate(
     req.query.productId,
-    { 
-      reviews: remainingReviews, 
-      ratings: newRatings, 
-      numOfReviews: remainingReviews.length 
+    {
+      reviews: remainingReviews,
+      ratings: newRatings,
+      numOfReviews: remainingReviews.length,
     },
     { new: true, runValidators: true, useFindAndModify: false }
   );
@@ -221,5 +232,3 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
 //     success:true
 //   })
 // });
-
-

@@ -5,21 +5,27 @@ const User = require("../models/userModel");
 
 const sendToken = require("../util/jwtToken");
 const sendEmail = require("../util/sendEmail");
-const crypto = require('crypto')
-
+const crypto = require("crypto");
+const cloudinary = require("cloudinary");
 
 //Register a User
 
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
-  const {name,email,password} = req.body;
+  const mycloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+    folder: "avatars",
+    width: 150,
+    crop: "scale",
+  });
+
+  const { name, email, password } = req.body;
 
   const user = await User.create({
     name,
     email,
     password,
     avatar: {
-      public_id: "this is a sample id",
-      url: "profile pic url",
+      public_id: mycloud.public_id,
+      url: mycloud.secure_url,
     },
   });
 
@@ -41,8 +47,6 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
 //   sendToken(user, 201, res);
 // });
-
-
 
 // Login User
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
@@ -184,89 +188,105 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
   sendToken(user, 200, res);
 });
 
-
 // Update user profile
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
-    
-    const newUserData ={
-        name:req.body.name,
-        email:req.body.email,
-    }
-    // we will add cloudinary later
+  const newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+  };
 
-    const user = await User.findByIdAndUpdate(req.user.id,newUserData,{
-        new:true,
-        runValidators:true,
-        useFindAndModify:false,
-    })
+  if (req.body.avupdated === "true") {
+    const user = await User.findById(req.user.id);
 
-    res.status(200).json({
-        success:true,
-    })
+    const imageId = user.avatar.public_id;
+
+    await cloudinary.v2.uploader.destroy(imageId);
+
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: "avatars",
+      width: 150,
+      crop: "scale",
+    });
+
+    newUserData.avatar = {
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    };
+  }
+
+  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+
+  res.status(200).json({
+    success: true,
+  });
 });
-  
+
 // Get all users--admin
 exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
-    const users= await User.find();
+  const users = await User.find();
 
-    res.status(200).json({
-        success:true,
-        users,
-    })
+  res.status(200).json({
+    success: true,
+    users,
+  });
 });
 
 // Get single user --admin
 exports.getSingleUserdetail = catchAsyncErrors(async (req, res, next) => {
-    const user = await User.findById(req.params.id);
+  const user = await User.findById(req.params.id);
 
-    if(!user){
-        return next(new ErrorHandler(`User does not exist with Id:${req.params.id}`))
-    }
+  if (!user) {
+    return next(
+      new ErrorHandler(`User does not exist with Id:${req.params.id}`)
+    );
+  }
 
-    res.status(200).json({
-        success:true,
-        user,
-    })
+  res.status(200).json({
+    success: true,
+    user,
+  });
 });
 
 // Update user role -- admin
 exports.updateRole = catchAsyncErrors(async (req, res, next) => {
-    
-    const newUserData ={
-        name:req.body.name,
-        email:req.body.email,
-        role:req.body.role,
-    }
-    
+  const newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+    role: req.body.role,
+  };
 
-    const user = await User.findByIdAndUpdate(req.params.id,newUserData,{
-        new:true,
-        runValidators:true,
-        useFindAndModify:false,
-    })
+  const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
 
-    res.status(200).json({
-        success:true,
-    })
+  res.status(200).json({
+    success: true,
+  });
 });
 
 // delete user -- admin
 exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
-    
-    const user = await User.findById(req.params.id);
+  const user = await User.findById(req.params.id);
 
-    // we will remove cloudinary later
+  // we will remove cloudinary later
 
-    if(!user){
-        return next(new ErrorHandler(`User does not exist with id: ${req.params.id}`))
-    }
+  if (!user) {
+    return next(
+      new ErrorHandler(`User does not exist with id: ${req.params.id}`)
+    );
+  }
 
-    // await User.remove();
-    await user.deleteOne({ _id: req.params.id});
-        
+  // await User.remove();
+  await user.deleteOne({ _id: req.params.id });
 
-    res.status(200).json({
-        success:true,
-        message:"User deleted succesfully"
-    })
+  res.status(200).json({
+    success: true,
+    message: "User deleted succesfully",
+  });
 });

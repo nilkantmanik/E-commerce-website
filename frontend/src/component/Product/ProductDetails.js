@@ -28,7 +28,7 @@ import { useParams } from "react-router-dom";
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
 
-const ProductDetails = ({ match }) => {
+const ProductDetails = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const { id } = useParams();
@@ -61,14 +61,14 @@ const ProductDetails = ({ match }) => {
   };
 
   const decreaseQuantity = () => {
-    if (1 >= quantity) return;
+    if (quantity<=1) return;
 
     const qty = quantity - 1;
     setQuantity(qty);
   };
 
   const addToCartHandler = () => {
-    dispatch(addItemsToCart(match.params.id, quantity));
+    dispatch(addItemsToCart(id, quantity));
     alert.success("Item Added To Cart");
   };
 
@@ -81,7 +81,7 @@ const ProductDetails = ({ match }) => {
 
     myForm.set("rating", rating);
     myForm.set("comment", comment);
-    myForm.set("productId", match.params.id);
+    myForm.set("productId", id);
 
     dispatch(newReview(myForm));
 
@@ -141,47 +141,47 @@ const ProductDetails = ({ match }) => {
             <div>
               <div
                 id="carouselExample"
-                class="carousel slide"
+                className="carousel slide"
                 data-bs-ride="carousel"
               >
-                <div class="carousel-inner">
+                <div className="carousel-inner">
                   {product.images &&
                     product.images.map((item, i) => (
                       <div
-                        class={`carousel-item ${i === 0 ? "active" : ""}`}
+                        className={`carousel-item ${i === 0 ? "active" : ""}`}
                         key={i}
                       >
                         <img
                           src={item.url}
-                          class="d-block w-100"
+                          className="d-block w-100"
                           alt={`${i} Slide`}
                         />
                       </div>
                     ))}
                 </div>
                 <button
-                  class="carousel-control-prev"
+                  className="carousel-control-prev"
                   type="button"
                   data-bs-target="#carouselExample"
                   data-bs-slide="prev"
                 >
                   <span
-                    class="carousel-control-prev-icon"
+                    className="carousel-control-prev-icon"
                     aria-hidden="true"
                   ></span>
-                  <span class="visually-hidden">Previous</span>
+                  <span className="visually-hidden">Previous</span>
                 </button>
                 <button
-                  class="carousel-control-next"
+                  className="carousel-control-next"
                   type="button"
                   data-bs-target="#carouselExample"
                   data-bs-slide="next"
                 >
                   <span
-                    class="carousel-control-next-icon"
+                    className="carousel-control-next-icon"
                     aria-hidden="true"
                   ></span>
-                  <span class="visually-hidden">Next</span>
+                  <span className="visually-hidden">Next</span>
                 </button>
               </div>
             </div>

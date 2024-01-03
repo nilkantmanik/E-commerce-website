@@ -39,7 +39,8 @@ class ApiFeatures {
 
         const skip = resultperpage * (currentpage-1);   // logic for skipping no of product based on page and products per page
 
-        this.query = this.query.limit(resultperpage).skip(skip);
+        this.query = this.query.skip(skip).limit(resultperpage);
+
         return this;
     }
 

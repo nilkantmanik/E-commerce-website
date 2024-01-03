@@ -19,6 +19,74 @@
 .paginationBox {
   display: flex;
   justify-content: center;
+  margin-top: 20px;
+}
+
+.paginationBox p {
+  margin: 0 5px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  user-select: none;
+  transition: background-color 0.3s;
+}
+
+.paginationBox p:hover {
+  background-color: #ddd;
+}
+
+.paginationBox p.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Additional styling for Prev and Next buttons */
+.paginationBox p.prev-next {
+  font-weight: bold;
+}
+
+.paginationBox p.prev-next:hover {
+  background-color: #007bff;
+  color: #5e54e9;
+}
+
+
+/*
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pagination li {
+  margin: 0 5px;
+}
+
+.pagination a {
+  color: #333;
+  text-decoration: none;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pagination .active a {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.pagination a:hover {
+  background-color: #ddd;
+} */
+
+
+/* .paginationBox {
+  display: flex;
+  justify-content: center;
   margin: 6vmax;
 }
 
@@ -26,9 +94,9 @@
   display: flex;
   justify-content: center;
   padding: 0;
-}
+} */
 
-.page-item {
+/* .page-item {
   background-color: rgb(255, 255, 255);
   list-style: none;
   border: 1px solid rgba(0, 0, 0, 0.178);
@@ -63,15 +131,16 @@
 }
 
 .pageLinkActive {
-  color: white;
+   color: white; 
   font-weight: bold; 
-}
+} 
+*/
 
 .filterBox {
   width: 10vmax;
   position: absolute;
   top: 10vmax;
-  left: 4vmax;
+  left: 3vmax;
 }
 
 .categoryBox {

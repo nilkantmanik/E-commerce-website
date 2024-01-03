@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, getProduct } from "../../actions/productAction";
 import Loader from "../layout/Loader/Loader";
 import ProductCard from "../layout/Home/ProductCard";
-import Pagination from "react-js-pagination";
 import Slider from "@material-ui/core/Slider";
 import { useAlert } from "react-alert";
 import Typography from "@material-ui/core/Typography";
@@ -27,7 +26,7 @@ const Products = () => {
   const alert = useAlert();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [price, setPrice] = useState([0, 2500000000]);
+  const [price, setPrice] = useState([0, 100000]);
   const [category, setCategory] = useState("");
 
   const [ratings, setRatings] = useState(0);
@@ -36,27 +35,21 @@ const Products = () => {
     products,
     loading,
     error,
-    productsCount,
+    // productsCount,
     resultPerPage,
     filteredProductsCount,
   } = useSelector((state) => state.products);
 
-  // const keyword = match.params.keyword;
-  // const keyword = match.params ? match.params.keyword : '';
-  // const keyword = match && match.params ? match.params.keyword : "";
   let { keyword } = useParams(); // Use the useParams hook to access the keyword from the URL
-  // console.log("key-", keyword);
 
-
-  const setCurrentPageNo = (e) => {
-    setCurrentPage(e);
-  };
+  
 
   const priceHandler = (event, newPrice) => {
     setPrice(newPrice);
   };
   let count = filteredProductsCount;
   // let count=productsCount;
+  let pageCount = Math.ceil(count / resultPerPage);
 
   useEffect(() => {
     if (error) {
@@ -91,7 +84,7 @@ const Products = () => {
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={0}
-              max={25000}
+              max={100000}
             />
 
             <Typography>Categories</Typography>
@@ -121,6 +114,38 @@ const Products = () => {
               />
             </fieldset>
           </div>
+
+          {resultPerPage < count && (
+            <div className="paginationBox">
+              {currentPage !== 1 && (
+                <p
+                  className="prev-next"
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                >
+                  Prev
+                </p>
+              )}
+              {Array.from({ length: pageCount }, (_, index) => (
+                <p
+                  key={index + 1}
+                  onClick={() => setCurrentPage(index + 1)}
+                  className={currentPage === index + 1 ? "active" : ""}
+                >
+                  {index + 1}
+                </p>
+              ))}
+              {currentPage !== pageCount && (
+                <p
+                  className="prev-next"
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                >
+                  Next
+                </p>
+              )}
+            </div>
+          )}
+
+          {/*
           {resultPerPage < count && (
             <div className="paginationBox">
               <Pagination
@@ -138,7 +163,7 @@ const Products = () => {
                 activeLinkClass="pageLinkActive"
               />
             </div>
-          )}
+          )} */}
         </Fragment>
       )}
     </Fragment>
