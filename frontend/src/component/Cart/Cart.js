@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addItemsToCart, removeItemsFromCart } from "../../actions/cartAction";
 import { Typography } from "@material-ui/core";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const Cart = () => {
   };
 
   const checkoutHandler = () => {
-    navigate("/login?redirect=shipping");
+    navigate("/shipping"); 
   };
 
   return (
@@ -67,7 +67,9 @@ const Cart = () => {
                       -
                     </button>
                     {/* <input type="number" value={item.quantity} readOnly /> */}
-                     <span style={{padding:"1px",margin:"3px"}}>{item.quantity}</span>
+                    <span style={{ padding: "1px", margin: "3px" }}>
+                      {item.quantity}
+                    </span>
                     <button
                       onClick={() =>
                         increaseQuantity(

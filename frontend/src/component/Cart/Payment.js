@@ -20,21 +20,21 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { createOrder, clearErrors } from "../../actions/orderAction";
 
 const Payment = ({ history }) => {
-  const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
-
+  
   const dispatch = useDispatch();
   const alert = useAlert();
   const stripe = useStripe();
   const elements = useElements();
   const payBtn = useRef(null);
-
-  const { shippingInfo, cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
   const { error } = useSelector((state) => state.newOrder);
-
+  
   const paymentData = {
     amount: Math.round(orderInfo.totalPrice * 100),
   };
+  
+  const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo")); // 3
+  const { shippingInfo, cartItems } = useSelector((state) => state.cart);   // 1
 
   const order = {
     shippingInfo,
@@ -44,6 +44,7 @@ const Payment = ({ history }) => {
     shippingPrice: orderInfo.shippingCharges,
     totalPrice: orderInfo.totalPrice,
   };
+  //2
 
   const submitHandler = async (e) => {
     e.preventDefault();

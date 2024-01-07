@@ -32,6 +32,7 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const { id } = useParams();
+  const {isAuthenticated} =useSelector((state) => state.user)
 
   const { product, loading, error } = useSelector(
     (state) => state.productDetails
@@ -61,15 +62,19 @@ const ProductDetails = () => {
   };
 
   const decreaseQuantity = () => {
-    if (quantity<=1) return;
+    if (quantity <= 1) return;
 
     const qty = quantity - 1;
     setQuantity(qty);
   };
 
   const addToCartHandler = () => {
-    dispatch(addItemsToCart(id, quantity));
-    alert.success("Item Added To Cart");
+    if (!isAuthenticated) {
+      alert.error("Please Login to Add item");
+    } else {
+      dispatch(addItemsToCart(id, quantity));
+      alert.success("Item Added To Cart");
+    }
   };
 
   const submitReviewToggle = () => {
