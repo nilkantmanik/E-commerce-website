@@ -6,7 +6,7 @@ const dotenv = require("dotenv");
 
 //config
 
-dotenv.config({ path: "backend/config/config.env" });
+dotenv.config({ path: "backend/Mydata/config.env" });
 
 
 const cors = require("cors");
