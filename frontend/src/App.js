@@ -26,7 +26,22 @@ import OrderSuccess from './component/Cart/OrderSuccess'
 import MyOrders from './component/Order/MyOrders'
 import OrderDetails from './component/Order/OrderDetails'
 
+import Dashboard from './component/Admin/Dashboard'
+import ProductList from './component/Admin/ProductList';
+import NewProduct from './component/Admin/NewProduct';
+import UpdateProduct from './component/Admin/UpdateProduct';
+import OrderList from './component/Admin/OrderList';
+import UserList from './component/Admin/UsersList';
+import UpdateUser from './component/Admin/UpdateUser';
+import ProductReviews from './component/Admin/ProductReviews';
+import Contact from './component/contact/Contact';
+import About from './component/contact/About';
+
+import NotFound from './component/layout/Not Found/NotFound' 
+
 // import Payment from './component/Cart/Payment'
+
+// import { useSelector } from 'react-redux';
 
 
 import { Elements } from '@stripe/react-stripe-js';
@@ -34,7 +49,12 @@ import { loadStripe } from '@stripe/stripe-js';
 
 function App() {
 
-  // const { user ,isAuthenticated} = useSelector((state) => state.user);
+  // const [userdata,setUserdata] =useState({});
+
+  // const { user } = useSelector((state) => state.user);
+
+  // setUserdata(user);
+
 
   const [stripeApiKey,setstripeApiKey] = useState("");
 
@@ -56,6 +76,8 @@ function App() {
     getStripeApiKey();
     
   },[]);
+
+  window.addEventListener("contextmenu",(e)=> e.preventDefault());
 
   return (
    <Router>
@@ -84,6 +106,21 @@ function App() {
 
     <Route path='/orders' element={<MyOrders /> }/>
     <Route path='/order/:id' element={<OrderDetails /> }/>
+
+    <Route path='/admin/dashboard' element={<Dashboard /> }/>
+    <Route path='/admin/products' element={<ProductList /> }/>
+    <Route path='/admin/product' element={<NewProduct /> }/>
+    <Route path='/admin/product/:productId' element={<UpdateProduct /> }/>
+    <Route path='/admin/orders' element={<OrderList /> }/>
+    <Route path='/admin/users' element={<UserList /> }/>
+    <Route path='/admin/user/:userId' element={<UpdateUser /> }/>
+    <Route path='/admin/reviews' element={<ProductReviews /> }/>
+
+    <Route path='/contact' element={<Contact /> }/>
+    <Route path='/about' element={<About /> }/>
+
+
+    <Route path='/*' element={<NotFound /> }/>
 
 
 

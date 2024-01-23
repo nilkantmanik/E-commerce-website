@@ -29,7 +29,7 @@ const UserOptions = () => {
   };
 
   const handledashboard = () => {
-    navigate("/dashboard");
+    navigate("/admin/dashboard");
   };
 
   const onLogout = () => {

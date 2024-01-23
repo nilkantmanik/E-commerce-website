@@ -1,0 +1,28 @@
+.contact-container{
+    height: 40vh;
+    width: 90vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.about-container{
+    height: 40vh;
+    width: 90vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.email-link {
+    text-decoration: none;
+    /* color: #333; You can choose your preferred color */
+    display: flex;
+    align-items: center;
+    transition: transform 0.5s ease;
+  }
+  
+  .email-link:hover {
+    color: #007bff; /* Change to your preferred hover color */
+  }
+  

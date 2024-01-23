@@ -15,7 +15,7 @@ const OrderDetails = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
 
-  const id = useParams();
+  const {id } = useParams();
 
   useEffect(() => {
     if (error) {
